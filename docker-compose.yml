@@ -1,0 +1,27 @@
+version: "3.9"
+
+services:
+  auth_service:
+    build: ./backend/auth_service
+    ports:
+      - "8000:8000"
+    env_file:
+      - ./backend/auth_service/.env
+    depends_on:
+      - postgres_auth
+    volumes:
+      - ./backend/auth_service:/app
+
+  postgres_auth:
+    image: postgres:16
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - auth_pgdata:/var/lib/postgresql/data
+    ports:
+      - "5434:5432"
+
+volumes:
+  auth_pgdata:
