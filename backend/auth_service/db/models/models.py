@@ -3,6 +3,8 @@ from db.database import Base
 
 
 class TelegramUser(Base):
+    __tablename__ = "telegram_users"
+
     id = Column(Integer, primary_key=True, index=True, autoincrement=True)
     telegram_id = Column(BigInteger, index=True, unique=True, nullable=False)
     is_active = Column(Boolean, index=True, default=True)
