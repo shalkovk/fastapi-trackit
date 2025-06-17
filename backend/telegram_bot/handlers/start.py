@@ -18,9 +18,7 @@ async def start_handler(message: Message):
                 params={"telegram_id": telegram_id}
             )
             if response.status_code == 200:
-                data = response.json()
-                token = data["access_token"]
-                await message.answer(f"Вы авторизованы! \nВаш токен:\n {token}")
+                await message.answer(f"Вы авторизованы! \nВаш токен записан.", parse_mode="Markdown")
             else:
                 await message.answer(f"Ошибка авторизации. Попробуйте позже.")
     except Exception as e:
