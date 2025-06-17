@@ -1,10 +1,11 @@
 from fastapi import FastAPI
-from api.routes.auth import router as auth_router
+from api.routes.parcels import router as parcels_router
 from db.database import engine, Base
+from db.models import models
 
 app = FastAPI()
 
-app.include_router(auth_router)
+app.include_router(parcels_router)
 
 
 @app.on_event("startup")

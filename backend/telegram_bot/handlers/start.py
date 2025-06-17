@@ -20,7 +20,7 @@ async def start_handler(message: Message):
             if response.status_code == 200:
                 data = response.json()
                 token = data["access_token"]
-                await message.answer(f"Вы авторизованы! \nВаш токен:\n {token}", parse_mode="Markdown")
+                await message.answer(f"Вы авторизованы! \nВаш токен:\n {token}")
             else:
                 await message.answer(f"Ошибка авторизации. Попробуйте позже.")
     except Exception as e:
