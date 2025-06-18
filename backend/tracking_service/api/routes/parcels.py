@@ -47,8 +47,8 @@ async def update_status(tracking_number: str, status: str, db: AsyncSession = De
     return {"ok": True, "message": "Status updated"}
 
 
-@router.delete("/delete")
-async def delete_parcels(tracking_number: str = Depends(get_current_user), db: AsyncSession = Depends(get_db)):
+@router.delete("/")
+async def delete_parcels(tracking_number: str, telegram_id: int = Depends(get_current_user), db: AsyncSession = Depends(get_db)):
     result = await db.execute(select(Parcel).where(Parcel.tracking_number == tracking_number))
     parcel = result.scalar_one_or_none()
     if not parcel:
