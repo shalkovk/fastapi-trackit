@@ -39,7 +39,7 @@ async def track_parcel(message: Message):
             response = await client.post(f"{TRACKING_SERVICE_URL}/parcels/", json=payload, headers=headers)
 
         if response.status_code == 200:
-            await message.answer("Посылка успешно добавлена для отслеживания.")
+            await message.answer("Посылка успешно добавлена для отслеживания. Для просмотра статуса выполните /list")
         elif response.status_code == 400:
             await message.answer("Такая посылка уже отслеживается.")
         else:

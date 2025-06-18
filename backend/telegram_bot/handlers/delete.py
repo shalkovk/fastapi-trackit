@@ -39,8 +39,8 @@ async def delete_handler(message: Message):
         async with httpx.AsyncClient() as client:
             response = await client.delete(f"{TRACKING_SERVICE_URL}/parcels/", headers=header, params=params)
         if response.status_code == 200:
-            await message.answer("Посылка успешно удалена из списка отслеживания.")
-        elif response.status_code == 400:
+            await message.answer("Посылка успешно удалена из списка отслеживания.\nДля просмотра списка посылок выполните /list")
+        elif response.status_code == 404:
             await message.answer("Такой посылки не существует в вашем списке.")
         else:
             await message.answer("Не удалось удалить посылку. Повторите попытку позже.")
