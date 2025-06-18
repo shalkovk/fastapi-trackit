@@ -45,3 +45,14 @@ async def update_status(tracking_number: str, status: str, db: AsyncSession = De
     parcel.status = status
     await db.commit()
     return {"ok": True, "message": "Status updated"}
+
+
+@router.delete("/delete")
+async def delete_parcels(tracking_number: int = Depends(get_current_user), db: AsyncSession = Depends(get_db)):
+    result = await db.execute(select(Parcel).where(Parcel.tracking_number == tracking_number))
+    parcel = result.scalar_one_or_none()
+    if not parcel:
+        raise HTTPException(status_code=404, detail="Parcel not found")
+    await db.delete(parcel)
+    await db.commit()
+    return {"ok": True, "message": "Parcel deleted"}

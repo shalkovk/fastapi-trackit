@@ -9,7 +9,7 @@ from redis_client import redis_client as redis
 router = Router()
 
 TRACKING_SERVICE_URL = os.getenv(
-    "TRACKING_SERVICE_URL", "http://tracking_service:8001")
+    "TRACKING_SERVICE_URL", "http://tracking_service:8000")
 
 
 @router.message(Command("list"))
