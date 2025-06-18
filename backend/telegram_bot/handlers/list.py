@@ -33,9 +33,9 @@ async def list_handler(message: Message):
                 await message.answer("У вас нет активных посылок.")
                 return
 
-            text = "Ваши посылки:\n(Формат *Посылка* - *Статус*)"
+            text = "Ваши посылки:\n(Формат *Посылка* — *Статус*)\n\n"
             for parcel in parcels:
-                text += f"📦 {parcel['tracking_number']} — ➡️ {parcel.get('status')}\n"
+                text += f"📦 {parcel['tracking_number']} — ➡️ {parcel.get('status')}\n\n"
             await message.answer(text)
         else:
             await message.answer("Ваш список отслеживаемых посылок пуст.")

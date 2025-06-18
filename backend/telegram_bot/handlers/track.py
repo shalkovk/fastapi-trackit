@@ -3,7 +3,7 @@ from aiogram.types import Message
 from aiogram.filters import Command
 import httpx
 import os
-from utils.validators import is_valid_tracking_number
+from handlers.utils.validators import is_valid_tracking_number
 from redis_client import redis_client as redis
 
 router = Router()
