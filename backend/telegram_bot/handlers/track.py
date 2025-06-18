@@ -3,6 +3,7 @@ from aiogram.types import Message
 from aiogram.filters import Command
 import httpx
 import os
+from utils.validators import is_valid_tracking_number
 from redis_client import redis_client as redis
 
 router = Router()
@@ -20,6 +21,10 @@ async def track_parcel(message: Message):
         return
 
     tracking_number = parts[1]
+
+    if not is_valid_tracking_number(tracking_number):
+        await message.answer("Неверный формат трек-номера. Проверьте его и повторите попытку.")
+        return
 
     token = await redis.get(f"token:{telegram_id}")
     if not token:

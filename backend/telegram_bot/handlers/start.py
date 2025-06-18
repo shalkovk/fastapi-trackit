@@ -18,7 +18,7 @@ async def start_handler(message: Message):
                 params={"telegram_id": telegram_id}
             )
             if response.status_code == 200:
-                await message.answer(f"Вы авторизованы! \nВаш токен записан.\nДля просмотра возможностей бота выполните /help ", parse_mode="Markdown")
+                await message.answer(f"Вы авторизованы! \nВаш токен записан.\n\nРекомендация:\nДля просмотра возможностей бота выполните /help", parse_mode="Markdown")
             else:
                 await message.answer(f"Ошибка авторизации. Попробуйте позже.")
     except Exception as e:
