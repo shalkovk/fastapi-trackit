@@ -61,6 +61,41 @@ services:
       - redis_data:/data
     restart: always
 
+  rabbitmq:
+    image: rabbitmq:3.11-management
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+    restart: unless-stopped
+
+  celery_worker:
+    build: ./backend/tracking_service
+    command: celery -A tasks.update_parcels worker --loglevel=info
+    env_file:
+      - ./backend/tracking_service/.env
+    volumes:
+      - ./backend/tracking_service:/app
+    depends_on:
+      - tracking_service
+      - redis
+      - rabbitmq
+
+  celery_beat:
+    build: ./backend/tracking_service
+    command: celery -A tasks.celery_app beat --loglevel=info
+    volumes:
+      - ./backend/tracking_service:/app
+    depends_on:
+      - rabbitmq
+      - redis
+      - tracking_service
+    env_file:
+      - ./backend/tracking_service/.env
+
 volumes:
   auth_pgdata:
   tracking_pgdata:
