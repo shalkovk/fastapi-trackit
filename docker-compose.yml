@@ -74,7 +74,7 @@ services:
 
   celery_worker:
     build: ./backend/tracking_service
-    command: celery -A tasks.update_parcels worker --loglevel=info
+    command: celery -A tasks.celery_app worker --loglevel=info
     env_file:
       - ./backend/tracking_service/.env
     volumes:
@@ -104,7 +104,6 @@ services:
       - rabbitmq
     volumes:
       - ./backend/notification_service:/app
-    command: ["python", "main.py"]
         
 volumes:
   auth_pgdata:

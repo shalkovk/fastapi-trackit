@@ -10,8 +10,8 @@ celery_app = Celery("tracking_serive", broker=os.getenv(
 celery_app.conf.timezone = "UTC"
 
 celery_app.conf.beat_schedule = {
-    "update-parcels-every-30min": {
+    "update-parcels-every-10min": {
         "task": "tasks.update_parcels.update_parcels",
-        "schedule": 60 * 30
+        "schedule": 60 * 10
     }
 }

@@ -13,21 +13,24 @@ QUEUE_NAME = os.getenv("QUEUE_NAME", "parcel_status_updates")
 
 
 async def send_status_update(parcel):
-    connection = await aio_pika.connect_robust(RABBITMQ_URL)
-    channel = await connection.channel()
-    queue = await channel.declare_queue(QUEUE_NAME, durable=True)
+    try:
+        connection = await aio_pika.connect_robust(RABBITMQ_URL)
+        channel = await connection.channel()
+        queue = await channel.declare_queue(QUEUE_NAME, durable=True)
 
-    message_body = {
-        "telegram_id": parcel.owner_telegram_id,
-        "tracking_number": parcel.tracking_number,
-        "new_status": parcel.status,
-        "carrier": parcel.carrier or "Unknown",
-        "last_update": str(parcel.last_update)
-    }
+        message_body = {
+            "telegram_id": parcel.owner_telegram_id,
+            "tracking_number": parcel.tracking_number,
+            "new_status": parcel.status,
+            "carrier": parcel.carrier or "Unknown",
+            "last_update": str(parcel.last_update)
+        }
 
-    await channel.default_exchange.publish(
-        aio_pika.Message(body=json.dumps(message_body).encode()),
-        routing_key=QUEUE_NAME
-    )
+        await channel.default_exchange.publish(
+            aio_pika.Message(body=json.dumps(message_body).encode()),
+            routing_key=QUEUE_NAME
+        )
 
-    await connection.close()
+        await connection.close()
+    except Exception as e:
+        print(f"[!] Ошибка при отправке уведомления: {e}")
