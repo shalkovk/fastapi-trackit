@@ -96,6 +96,16 @@ services:
     env_file:
       - ./backend/tracking_service/.env
 
+  notification_service:
+    build: ./backend/notification_service
+    env_file:
+      - ./backend/notification_service/.env
+    depends_on:
+      - rabbitmq
+    volumes:
+      - ./backend/notification_service:/app
+    command: ["python", "main.py"]
+        
 volumes:
   auth_pgdata:
   tracking_pgdata:
